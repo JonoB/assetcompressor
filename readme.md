@@ -33,4 +33,4 @@ Asset::styles(true);
 
 5 JSCompressor has a lot of other options for debugging. I have not yet linked these up to the asset bundle, but they are there and are very useful for development.
 
-6. It may make sense to allow users to choose their JS minification driver - either Closure API or Closure Java.
+6 It may make sense to allow users to choose their JS minification driver - either Closure API or Closure Java.
