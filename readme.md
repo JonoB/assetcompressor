@@ -1,37 +1,27 @@
-# AssetCompressor
+This is largely based on vespakoens assetcompressor, which is available at https://github.com/Vespakoen/AssetCompressor
 
-Inspired by ShawnMcCool's closure-compiler bundle, I started adding on to his code until the AssetCompressor was born.
-closure-compiler (and readme.md) credits go to ShawnMcCool & friends =)
+There are a few main differences:
 
-AssetCompressor is installable via the Artisan CLI:
+1. JS files are now compressed with the google closure API, and not the Java Jar file. I had a few issues where files were not compressed properly with the jar, possibly because they are out of date. Using the API means that we always have the most up-to-date compiler.
 
-    php artisan bundle:install assetcompressor
+2. Assets need to be output as follows:
 
-**Important:** Closure Compiler requires that Java is installed.  Consequently, it can run on virtually any operating system.
+```php
+Asset::styles()->compress()->get();
+```
+This has the major benefit in that the config file is no longer needed - you can decide if you want the files to be compressed at run time.
 
-### Description
+If you don't want compression, then you can do either of the following:
+```php
+// These both do the same thing
+Asset::styles()->get();
+Asset::styles()->compress(false)->get();
+```
 
-This bundle automatically minifies a site's Assets (JS / CSS) and updates them only when necessary.
+3. CSS assets are first combined and then minified. Previously they were minified individually and then combined afterwards.
 
+4. Cache filenames are random strings (md5, limited to 16 chars), instead of concatenating the underlying assets.
 
-### 1. Bundle Registration
+5. JSCompressor has a lot of other options for debugging. I have not yet linked these up to the asset bundle, but they are there and are very useful for development.
 
-Add 'assetcompressor' to your **application/bundles.php** file:
-
-    return array(
-        'assetcompressor' => array(
-            'auto' => true
-        )
-    );
-
-### 2. Configuration
-
-This bundle assumes that the Java binary is available and already in your PATH.  This is almost always the case.  If --for whatever reason-- you need to specify the absolute path to the binary, you can do so in the java_binary_path_overrides array().  You can add as many paths as you'd like and may mix and match paths for different operating systems.  Invalid paths will simply be ignored.
-
-### License
-
-The AssetCompressor bundle is released under the MIT license.
-
-The Google Closure Compiler has been included in this package (in the drivers/closure-compiler directory).  It is important to note that the Closure Compiler has been released under the Apache License, Version 2.0.
-
-More information can be found here: [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+6. It may make sense to allow users to choose their JS minification driver - either Closure API or Closure Java.
