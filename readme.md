@@ -1,10 +1,10 @@
-This is largely based on vespakoens assetcompressor, which is available at https://github.com/Vespakoen/AssetCompressor
+This is largely based on Vespakoen's assetcompressor, which is available at https://github.com/Vespakoen/AssetCompressor
 
 There are a few main differences:
 
-1. JS files are now compressed with the google closure API, and not the Java Jar file. I had a few issues where files were not compressed properly with the jar, possibly because they are out of date. Using the API means that we always have the most up-to-date compiler.
+1 JS files are now compressed with the google closure API, and not the Java Jar file. I had a few issues where files were not compressed properly with the jar, possibly because they are out of date. Using the API means that we always have the most up-to-date compiler.
 
-2. Assets need to be output as follows:
+2 Assets need to be output as follows:
 
 ```php
 Asset::styles()->compress()->get();
@@ -18,10 +18,19 @@ Asset::styles()->get();
 Asset::styles()->compress(false)->get();
 ```
 
-3. CSS assets are first combined and then minified. Previously they were minified individually and then combined afterwards.
+I originally had the compression option as follows, but this would hinder future options being offered in an intuitive manner. So, for now the options are handled as above
+```php
+// No compression
+Asset::styles(); // or Asset::styles(false);
 
-4. Cache filenames are random strings (md5, limited to 16 chars), instead of concatenating the underlying assets.
+// Compression
+Asset::styles(true);
+```
 
-5. JSCompressor has a lot of other options for debugging. I have not yet linked these up to the asset bundle, but they are there and are very useful for development.
+3 CSS assets are first combined and then minified. Previously they were minified individually and then combined afterwards. I'm not sure if there is actually any benefit to this, but it seemed more logical - especially if we want to allow users in the future to combine() and not compress() 
+
+4 Cache filenames are random strings (md5, limited to 16 chars), instead of concatenating the underlying assets.
+
+5 JSCompressor has a lot of other options for debugging. I have not yet linked these up to the asset bundle, but they are there and are very useful for development.
 
 6. It may make sense to allow users to choose their JS minification driver - either Closure API or Closure Java.
