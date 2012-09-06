@@ -18,15 +18,6 @@ Asset::styles()->get();
 Asset::styles()->compress(false)->get();
 ```
 
-I originally had the compression option as follows, but this would hinder future options being offered in an intuitive manner. So, for now the options are handled as above
-```php
-// No compression
-Asset::styles(); // or Asset::styles(false);
-
-// Compression
-Asset::styles(true);
-```
-
 3 CSS assets are first combined and then minified. Previously they were minified individually and then combined afterwards. I'm not sure if there is actually any benefit to this, but it seemed more logical - especially if we want to allow users in the future to combine() and not compress() 
 
 4 Cache filenames are random strings (md5, limited to 16 chars), instead of concatenating the underlying assets.
