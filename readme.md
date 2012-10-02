@@ -20,10 +20,8 @@ Asset::styles()->compress(false)->get();
 
 3 CSS assets are first combined and then minified. Previously they were minified individually and then combined afterwards. I'm not sure if there is actually any benefit to this, but it seemed more logical - especially if we want to allow users in the future to combine() and not compress() 
 
-4 Cache filenames are random strings (md5, limited to 16 chars), instead of concatenating the underlying assets.
+4 Query strings are no longer used to fingerprint cached files, as there are several disadvantages (see http://guides.rubyonrails.org/asset_pipeline.html). Cache filenames are now random strings (md5, limited to 16 chars).
 
 5 JSCompressor has a lot of other options for debugging. I have not yet linked these up to the asset bundle, but they are there and are very useful for development.
 
 6 It may make sense to allow users to choose their JS minification driver - either Closure API or Closure Java.
-
-7 Compressed asset filenames are not differentiated by use of a query string. Query strings have several disadvantages to actually creating a hashed filename (see http://guides.rubyonrails.org/asset_pipeline.html)
