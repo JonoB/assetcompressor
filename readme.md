@@ -25,3 +25,5 @@ Asset::styles()->compress(false)->get();
 5 JSCompressor has a lot of other options for debugging. I have not yet linked these up to the asset bundle, but they are there and are very useful for development.
 
 6 It may make sense to allow users to choose their JS minification driver - either Closure API or Closure Java.
+
+7 Compressed asset filenames are not differentiated by use of a query string. Query strings have several disadvantages to actually creating a hashed filename (see http://guides.rubyonrails.org/asset_pipeline.html)
